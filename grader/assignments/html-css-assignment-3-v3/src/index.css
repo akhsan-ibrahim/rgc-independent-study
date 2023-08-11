@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    font-family: Poppins;
+}
+
+nav ul li{
+    display: inline-block;
+}
+.btn{
+    display: none;
+}
+@media (max-width: 580px){
+    .btn{
+        display: block;
+    }
+    nav ul{
+        display: none;
+        background: #a31cafda;
+        border-bottom: solid white 1px;        
+    }
+    #check:checked ~ ul{
+        display: block;
+    }
+    nav ul li{
+        line-height: 30px;
+        display: block;        
+    }
+}
