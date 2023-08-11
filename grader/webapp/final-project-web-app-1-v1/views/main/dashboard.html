@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   {{template "general/header"}} 
+</head>
+<body>
+    <div class="flex flex-col w-screen h-screen overflow-auto text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
+        <div class="flex items-center justify-between flex-shrink-0 w-full h-16 px-10 bg-white bg-opacity-75">
+            <svg class="w-8 h-8 text-indigo-600 stroke-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+            </svg>
+            <!-- <div class="flex items-center justify-center w-8 h-8 ml-auto"> -->
+                <a href="/logout">
+                    <buton class="cursor-pointer font-bold">
+                        Logout
+                    </buton>
+                </a>
+            <!-- </div> -->
+        </div>
+
+        <!-- Kanban App -->
+        <div class="px-10 mt-6 justify-between flex flex-shrink-0">
+            <h1 class="text-2xl font-bold">Kanban App</h1>
+            <a href="/category/add" class="bg-blue-500 rounded-md px-3 py-1 text-white hover:scale-105 hover:transition-transform shadow-md">
+                Add Category
+            </a>
+        </div>
+
+        <!-- TODO: answer here -->
+
+        <div class="flex flex-grow px-10 mt-4 space-x-6 overflow-auto">
+            {{range $item,$categoryData := .categories}}
+            <div class="flex flex-col flex-shrink-0 w-72 mb-3">
+                    <div class="bg-white shadow-md bg-opacity-70 rounded-t-lg flex justify-between flex-shrink-0 items-center h-10 px-2 mb-2">
+                        <h2 class="block font-semibold">{{$categoryData.Type}}</h2>
+                        <div class="flex flex-end">
+                            <a href="task/add?category={{$categoryData.ID}}"
+                            class="hover:bg-blue-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                              </svg>                                                           
+                            </a>
+                            <a href="category/delete?category_id={{$categoryData.ID}}" 
+                            class="hover:bg-red-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                </svg>                                                            
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex flex-col overflow-auto">
+                        {{range $task := $categoryData.Tasks}}
+                        <div class="group/item relative flex-col p-2 my-2 bg-white rounded-sm cursor-pointer bg-opacity-30 shadow-sm group hover:bg-opacity-60">
+                            <div class="flex justify-between mb-1">
+                                <h2 class="font-semibold">{{$task.Title}}</h2>
+                                <div class="flex flex-end group/edit invisible group-hover/item:visible">
+                                    {{$left := categoryDec $categoryData.ID}}
+                                    <a href="/task/update/process?task_id={{$task.ID}}&amp;category_id={{$left}}"
+                                    class="hover:bg-blue-300 hover:rounded-full hover:mx-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                          </svg>                                                                                   
+                                    </a>
+                                    {{$right := categoryInc $categoryData.ID}}
+                                    <a href="/task/update/process?task_id={{$task.ID}}&amp;category_id={{$right}}"
+                                    class="hover:bg-blue-300 hover:rounded-full hover:mx-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                          </svg>                                          
+                                    </a>            
+                                    <a href="task/delete?task_id={{$task.ID}}"
+                                    class="hover:bg-red-400 hover:ml-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                      </svg>                                      
+                                    </a>
+                                </div>                                 
+                            </div>
+                            
+                            <a href="/task/update?task_id={{$task.ID}}">                        
+                                
+                                <p>{{$task.Description}}</p>
+                            </a>                        
+                        </div>
+                        {{end}}
+                    </div>                                    
+            </div>
+            {{end}}
+        </div>            
+    </div>
+</body>
+</html>

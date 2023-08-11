@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{template "general/header"}}
+</head>
+<body class="flex justify-center content-center items-center align-middle bg-gradient-to-r from-blue-200 via-indigo-200 to-pink-200">
+    <main class="bg-opacity-50 rounded-3xl shadow-lg backdrop-brightness-100 backdrop-blur-md min-h-full my-16 mx-16 w-full max-w-5xl bg-white">
+        <section class="px-36 py-20">
+            <h3 class="font-bold text-3xl text-center align-middle mb-12">Update new task</h3>
+            <form method="post" action="/task/update/process?task_id={{.ID}}" class="w-full">
+                
+                <div class="w-full mb-4">
+                <label class="font-bold">Title :</label>
+                <input type="text" placeholder="Type title here" name="title" required value="{{.Title}}"
+                class="w-full text-black p-1 rounded-md outline-blue-400 pl-3"/>
+                </div>
+    
+                <div class="w-full mb-4">
+                <label class="font-bold">Description :</label>
+                <input type="text" placeholder="Type description here" name="description" required value="{{.Description}}"
+                class="w-full text-black p-1 rounded-md outline-blue-400 pl-3"/>
+                </div>
+    
+                <button type="submit"
+                class="font-semibold text-white py-2 px-10 bg-blue-500 rounded-full w-full shadow-lg mt-5
+                hover:bg-gradient-to-tr from-blue-500 to-indigo-500 hover:scale-105 hover:transition-transform hover:cursor-pointer">Update Task</button>
+            </form>
+    
+            <div class="md:grid-cols-1 md:grid md:gap-1 mt-10">
+            <a href="/dashboard"
+            class="font-semibold text-blue-600 py-2 px-10 mt-100 text-center
+            hover:scale-105 hover:transition-transform hover:cursor-pointer">Back to Dashboard</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
