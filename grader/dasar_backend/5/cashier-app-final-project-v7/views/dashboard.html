@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Page</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" 
+    integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            fontFamily: { 
+                'poppins': 'Poppins',
+            },
+            extend: {                
+              colors: {
+              }
+            }
+          }
+        }
+      </script>
+    <script>
+        function displayQty(listData, checkId, qtyId) {
+            var checkBox = document.getElementById(checkId);
+            var qty = document.getElementById(qtyId);
+            if (checkBox.checked == true) {
+                qty.style.display = "block";
+                checkBox.value = listData + "," + qty.value
+            } else {
+                qty.style.display = "none";
+            }
+        }
+    </script>
+    <style>
+        .avatar {
+            float: left;
+            /* width: 50px;
+            height: 50px; */
+            border-radius: 50%;
+        }
+
+        .avatar:hover {
+            background-color: rgb(196, 4, 196);
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        .navbar {
+            width: 100%;
+            overflow: auto;
+        }
+
+        .menu {
+            /* float: left; */
+            text-align: right;
+            /* padding: 12px; */
+            color: #000;
+            text-decoration: none;
+            font-size: 17px;
+        }
+    </style>
+</head>
+
+<body class="flex justify-center shadow-xl content-center items-center align-middle bg-gradient-to-r from-fuchsia-500 via-purple-500 to-pink-500">
+<main class="font-poppins bg-opacity-50 rounded-3xl shadow-lg backdrop-brightness-150 backdrop-blur-md min-h-full my-16 mx-14 w-full max-w-5xl bg-white">
+    <section class="px-24 py-20">
+    <header>
+        <h1 class="font-bold text-3xl text-center align-middle">Dashboard Page</h1>
+    </header>
+
+    <nav class="w-full mt-5 shadow-lg h-10">
+        <form method="post" action="/user/img/update-profile" enctype="multipart/form-data" class="">
+            <div class="w-full text-black p-2 rounded-md bg-white">
+                <img src="/user/img/profile" alt="Avatar" class="avatar max-h-12 max-w-12">
+                <label class="font-bold text-lg ml-2">Hello {{.Cart.Name}}</label>
+                <div class="float-right">
+                <label class="menu text-sm text-right">Update Profile: </label>
+                <input type="file" name="file-avatar" required class="text-sm file:text-right file:text-white py-0.5 px-4 file:bg-fuchsia-700 file:rounded-md file:shadow-lg 
+                file:border-none
+                file:hover:bg-gradient-to-r file:from-fuchsia-700 file:to-pink-500 file:hover:scale-105 file:hover:transition-transform file:hover:cursor-pointer"/>
+                <input type="submit" class="font-semibold text-white py-0.5 px-4 bg-fuchsia-700 rounded-md shadow-lg 
+                hover:bg-gradient-to-r from-fuchsia-700 to-pink-500 hover:scale-105 hover:transition-transform hover:cursor-pointer">
+                </div>
+            </div>
+        </form>
+    </nav>
+
+    <section class="mt-6 px-12">
+        <h2 class="w-full mb-1 font-bold text-lg">List Product</h2>
+        <form method="post" action="/cart/add">
+            {{range $val := .Product}}
+            <input type="checkbox" id="check-{{ .Id }}" name="product"
+                onclick="displayQty('{{ .Id }},{{ .Name }},{{ .Price }}', 'check-{{ .Id }}', 'qty-{{ .Id }}')">
+            <label>{{ .Id }}. {{ .Name }}: Rp. {{ .Price }},-</label>
+            <input type="number" style="display:none" id="qty-{{ .Id }}" value="1" min="1" max="100"
+                onchange="displayQty('{{ .Id }},{{ .Name }},{{ .Price }}', 'check-{{ .Id }}', 'qty-{{ .Id }}')">
+            <br>
+            {{else}}
+            Empty Product
+            {{end}}
+            <button type="submmit" 
+            class="font-semibold text-white py-2 px-10 bg-fuchsia-700 rounded-full w-full shadow-lg mt-2
+            hover:bg-gradient-to-r from-fuchsia-700 to-pink-500 hover:scale-105 hover:transition-transform hover:cursor-pointer">Add to Cart</button>
+        </form>
+    </section>
+
+    <section class="mt-6 px-12">
+        <h2 class="w-full mb-1 font-bold text-lg">My Cart</h2>
+
+        <ul class="bg-white p-2 rounded-md mb-2">
+            {{range $val := .Cart.Cart}}
+            <li><h4 class="font-semibold">{{ .Name }}</h4>
+                <ul>
+                    <li>Price: Rp. {{ .Price }},-</li>
+                    <li>Quantity: {{ .Quantity }}</li>
+                    <li>Total: {{ .Total }}</li>
+                </ul>
+            </li>
+            {{else}}1
+            Empty Cart
+            {{end}}
+        </ul>
+        <p class="font-bold text-lg mt-3">Total Price Rp. {{.Cart.TotalPrice}},-</p>
+    </section>
+
+    <footer class="mt-20">
+        <form method="get" action="/user/logout">
+            <button type="submmit"
+            class="font-semibold text-white py-2 px-10 bg-fuchsia-700 rounded-full w-full shadow-lg mt-5
+            hover:bg-gradient-to-r from-fuchsia-700 to-pink-500 hover:scale-105 hover:transition-transform hover:cursor-pointer">Logout</button>
+        </form>
+    </footer>
+    </section>
+</main>
+</body>
+
+</html>

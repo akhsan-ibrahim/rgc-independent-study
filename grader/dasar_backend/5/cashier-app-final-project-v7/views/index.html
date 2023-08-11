@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashier App</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" 
+    integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            fontFamily: { 
+                'poppins': 'Poppins',
+            },
+            extend: {                
+              colors: {
+              }
+            }
+          }
+        }
+      </script>
+</head>
+
+<body class="flex justify-center shadow-xl content-center items-center align-middle bg-gradient-to-r from-fuchsia-500 via-purple-500 to-pink-500">
+<main class="font-poppins bg-opacity-50 rounded-3xl shadow-lg backdrop-brightness-150 backdrop-blur-md min-h-full my-16 mx-16 w-full max-w-5xl bg-white">
+
+    <section class="px-36 py-32">
+        <h1 class="font-medium text-3xl text-center align-middle">Welcome to</h1>
+        <h2 class="font-bold text-6xl text-center align-middle mt-3 mb-16">Cashier App</h2>
+        <div class="md:grid-cols-1 md:grid md:gap-1">
+            <a href="/page/register" 
+            class="bg-fuchsia-800 rounded-full mb-3 shadow-lg hover:bg-gradient-to-r 
+            from-fuchsia-700 to-pink-500 hover:scale-105 hover:transition-transform hover:cursor-pointer
+            text-center py-3 text-lg text-white">
+                Register
+            </a>
+            <a href="/page/login" 
+            class="bg-fuchsia-800 rounded-full mb-3 shadow-lg hover:bg-gradient-to-r 
+            from-fuchsia-700 to-pink-500 hover:scale-105 hover:transition-transform hover:cursor-pointer
+            text-center py-3 text-lg text-white">
+                Login
+            </a>
+        </div>
+    </section>
+    
+</main>
+</body>
+
+</html>
